@@ -101,55 +101,13 @@ const RecursiveTable: React.FC<RecursiveTableProps> = ({ data, level }) => {
 // --- MAIN WRAPPER (Level 0) with SCROLL ---
 const TanStackHierarchicalGrid: React.FC = () => {
     const rowData = useMemo(() => generateHierarchyData(100), []);
-    const [pageIndex, setPageIndex] = useState(0);
-    const pageSize = 5;
-    const pageCount = Math.ceil(rowData.length / pageSize);
-    const pagedData = useMemo(
-        () => rowData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
-        [pageIndex, pageSize, rowData]
-    );
 
     return (
         <div className="tanstack-wrapper">
             <h3>TanStack Table: Infinite-Depth Hierarchy</h3>
             <p>Click the chevrons to expand nested rows at any depth.</p>
             {/* Start recursion at Level 0 */}
-            <RecursiveTable data={pagedData} level={0} />
-            <div className="pagination-bar">
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(0)}
-                    disabled={pageIndex === 0}
-                >
-                    First
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.max(prev - 1, 0))}
-                    disabled={pageIndex === 0}
-                >
-                    Prev
-                </button>
-                <span>Page {pageIndex + 1} of {pageCount}</span>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.min(prev + 1, pageCount - 1))}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    Next
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(pageCount - 1)}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    Last
-                </button>
-            </div>
+            <RecursiveTable data={rowData} level={0} />
         </div>
     );
 };
