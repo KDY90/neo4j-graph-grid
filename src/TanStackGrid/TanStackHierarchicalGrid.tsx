@@ -19,13 +19,15 @@ interface RecursiveTableProps {
     level: number;
 }
 
+const levelNames = ['Group', 'Subsidiary', 'Division', 'Dept', 'Team', 'Project', 'Task'];
+const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1}`;
+
 const RecursiveTable: React.FC<RecursiveTableProps> = ({ data, level }) => {
     const [expanded, setExpanded] = useState<ExpandedState>({});
 
     // Config based on level
-    const levelNames = ['Group', 'Subsidiary', 'Division', 'Dept', 'Team', 'Project', 'Task'];
-    const currentName = levelNames[level] || 'Item';
-    const isLeaf = level >= 6;
+    const currentName = getLevelLabel(level);
+    const hasExpandableRows = data.some((row) => row.children && row.children.length > 0);
 
     // Dynamic Columns
     const columns = useMemo<ColumnDef<Entity>[]>(() => {
@@ -37,7 +39,7 @@ const RecursiveTable: React.FC<RecursiveTableProps> = ({ data, level }) => {
         ];
 
         // Add Expander to first col if not leaf
-        if (!isLeaf) {
+        if (hasExpandableRows) {
             baseCols.unshift({
                 id: 'expander',
                 header: () => null,
@@ -53,7 +55,7 @@ const RecursiveTable: React.FC<RecursiveTableProps> = ({ data, level }) => {
             });
         }
         return baseCols;
-    }, [level, currentName, isLeaf]);
+    }, [currentName, hasExpandableRows]);
 
     const table = useReactTable({
         data,
@@ -62,11 +64,17 @@ const RecursiveTable: React.FC<RecursiveTableProps> = ({ data, level }) => {
         onExpandedChange: setExpanded,
         getCoreRowModel: getCoreRowModel(),
         getExpandedRowModel: getExpandedRowModel(),
-        getRowCanExpand: () => !isLeaf
+        getRowCanExpand: (row) => !!row.original.children?.length
     });
 
     return (
-        <div className={`tanstack-detail-panel level-${level}`}>
+        <div
+            className="tanstack-detail-panel"
+            style={{
+                borderLeftColor: `var(--level-accent-${level % 6})`,
+                background: `var(--level-bg-${level % 4})`
+            }}
+        >
             <h4 className='level-header'>Level {level + 1}: {currentName}s</h4>
             <table className="tanstack-table detail-table">
                 <thead>{table.getHeaderGroups().map(g => <tr key={g.id}>{g.headers.map(h => <th key={h.id}>{flexRender(h.column.columnDef.header, h.getContext())}</th>)}</tr>)}</thead>
@@ -94,8 +102,8 @@ const RecursiveTable: React.FC<RecursiveTableProps> = ({ data, level }) => {
 const TanStackHierarchicalGrid: React.FC = () => {
     return (
         <div className="tanstack-wrapper" style={{ maxHeight: 'calc(100vh - 200px)', overflow: 'auto' }}>
-            <h3>TanStack Table: 7-Level Recursive Hierarchy</h3>
-            <p>Using a Generic Recursive Component</p>
+            <h3>TanStack Table: Infinite-Depth Hierarchy</h3>
+            <p>Click the chevrons to expand nested rows at any depth.</p>
             {/* Start recursion at Level 0 */}
             <RecursiveTable data={mockData7} level={0} />
         </div>

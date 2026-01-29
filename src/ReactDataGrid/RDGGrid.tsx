@@ -12,19 +12,20 @@ interface NestedRDGProps {
     level: number;
 }
 
+const levelNames = ['Group', 'Subsidiary', 'Division', 'Dept', 'Team', 'Project', 'Task'];
+const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1}`;
+
 const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
     // Flatten rows for RDG + Injection
     // We start with the items. When expanded, we inject a 'DETAIL' row.
     const [rows, setRows] = useState<any[]>(items.map((i: any) => ({ ...i, type: 'MASTER', expanded: false })));
 
     // Levels: 0=Group -> 6=Task
-    const levelNames = ['Group', 'Subsidiary', 'Division', 'Dept', 'Team', 'Project', 'Task'];
-    const currentName = levelNames[level] || 'Item';
-    const isLeaf = level >= 6;
+    const currentName = getLevelLabel(level);
 
     // Toggle Handler
     const toggleRow = (id: string, childrenData: Entity[]) => {
-        if (isLeaf) return;
+        if (!childrenData || childrenData.length === 0) return;
 
         const idx = rows.findIndex(r => r.id === id);
         if (idx === -1) return;
@@ -86,7 +87,7 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
         <DataGrid
             columns={columns}
             rows={rows}
-            rowHeight={(args: any) => args.type === 'DETAIL' ? (isLeaf ? 50 : 400) : 45} // 400px for nested grid
+            rowHeight={(args: any) => args.type === 'DETAIL' ? 400 : 45} // 400px for nested grid
             className="rdg-light"
             style={{ height: '100%', minHeight: 100 }}
         />
@@ -96,8 +97,8 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
 const RDGGrid: React.FC = () => {
     return (
         <div style={{ padding: '2rem', background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', maxHeight: 'calc(100vh - 200px)', overflow: 'auto' }}>
-            <h3>React Data Grid: 7-Level Recursive Nesting</h3>
-            <p>Using Recursive Row Injection (Group &rarr; ... &rarr; Task)</p>
+            <h3>React Data Grid: Infinite-Depth Hierarchy</h3>
+            <p>Recursive row injection enables nesting without depth limits.</p>
             <NestedRDG items={mockData7} level={0} />
         </div>
     );
