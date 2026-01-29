@@ -7,16 +7,16 @@
     border: 1px solid rgba(0, 0, 0, 0.06);
     overflow: visible;
     /* CRITICAL: No clipping */
-    --level-accent-0: #f7d600;
-    --level-accent-1: #f2c200;
-    --level-accent-2: #e1b200;
-    --level-accent-3: #d2a400;
-    --level-accent-4: #c59500;
-    --level-accent-5: #b08600;
-    --level-bg-0: #fffdf1;
-    --level-bg-1: #fff8cc;
-    --level-bg-2: #ffffff;
-    --level-bg-3: #fffdf1;
+    --level-accent-0: var(--color-primary-600);
+    --level-accent-1: var(--color-primary-500);
+    --level-accent-2: var(--color-primary-400);
+    --level-accent-3: var(--color-primary-300);
+    --level-accent-4: var(--color-primary-200);
+    --level-accent-5: var(--neutral-300);
+    --level-bg-0: var(--neutral-50);
+    --level-bg-1: var(--color-primary-50);
+    --level-bg-2: #fff;
+    --level-bg-3: var(--neutral-50);
 }
 
 .tanstack-table {
@@ -98,5 +98,5 @@
 }
 
 .btn-toggle:hover {
-    background: #fff4b1;
+    background: var(--color-primary-50);
 }

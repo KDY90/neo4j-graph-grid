@@ -74,16 +74,10 @@ const deepChain = (prefix: string, depth: number, baseDepth: number, index: numb
     );
 };
 
-const buildDeepHierarchy = (prefix: string, depth: number): Entity => {
-    return deepChain(prefix, depth, 2);
-};
-
-const deepHierarchyDepth = 18;
-
 export const mockData7: Entity[] = [
     createEntity('g1', 'TechNova Group (L1)', 'Group', '$5B', 'Judy', 'Active', [
         ...subsidiaries('g1'),
-        buildDeepHierarchy('g1-deep', deepHierarchyDepth)
+        deepChain('g1-deep', 10, 2)
     ]),
     createEntity('g2', 'GreenFuture (L1)', 'Group', '$2B', 'Karl', 'Active', subsidiaries('g2')),
 ];

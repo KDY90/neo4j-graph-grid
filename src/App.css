@@ -95,15 +95,15 @@
   display: block;
   border-radius: var(--radius-md);
   background: white;
-  border: 1px solid #eeeeee;
+  border: 1px solid var(--neutral-200);
   padding: 18px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
 
 .nav-link-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
 }
 
 .nav-card-item h2 {
@@ -197,13 +197,13 @@
 }
 
 .badge-ag {
-  background: #fff4b1;
-  color: #8a6a00;
+  background: rgba(35, 82, 255, 0.12);
+  color: #2041d5;
 }
 
 .badge-ts {
-  background: rgba(25, 25, 25, 0.08);
-  color: #191919;
+  background: rgba(0, 184, 148, 0.15);
+  color: #0b8d74;
 }
 
 .badge-success {

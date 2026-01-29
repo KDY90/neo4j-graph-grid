@@ -102,12 +102,7 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
         <DataGrid
             columns={columns}
             rows={rows}
-            rowHeight={(args: any) => {
-                if (args.type === 'DETAIL') {
-                    return estimateDetailHeight(args.row.data ?? [], level);
-                }
-                return 45;
-            }}
+            rowHeight={(args: any) => args.type === 'DETAIL' ? 400 : 45} // 400px for nested grid
             className="rdg-light"
             style={{ height: gridHeight, minHeight: 120 }}
         />
@@ -116,7 +111,7 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
 
 const RDGGrid: React.FC = () => {
     return (
-        <div style={{ padding: '2rem', background: '#ffffff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 18px 32px rgba(0,0,0,0.08)', maxHeight: 'calc(100vh - 200px)', overflow: 'auto' }}>
+        <div style={{ padding: '2rem', background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', maxHeight: 'calc(100vh - 200px)', overflow: 'auto' }}>
             <h3>React Data Grid: Infinite-Depth Hierarchy</h3>
             <p>Recursive row injection enables nesting without depth limits.</p>
             <NestedRDG items={mockData7} level={0} />
