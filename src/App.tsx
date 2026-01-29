@@ -65,7 +65,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <nav className="app-header-nav">
           <Link to="/" className={`nav-item ${isActive('/')}`}>Home</Link>
-          <Link to="/ag-grid" className={`nav-item ${isActive('/ag-grid')}`}>AG Grid</Link>
+          {/* <Link to="/ag-grid" className={`nav-item ${isActive('/ag-grid')}`}>AG Grid</Link> */}
           <Link to="/tanstack" className={`nav-item ${isActive('/tanstack')}`}>TanStack</Link>
           <Link to="/mui-x" className={`nav-item ${isActive('/mui-x')}`}>MUI X</Link>
           <Link to="/mrt" className={`nav-item ${isActive('/mrt')}`}>MRT</Link>

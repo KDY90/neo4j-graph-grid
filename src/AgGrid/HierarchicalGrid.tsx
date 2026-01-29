@@ -28,8 +28,7 @@ const HierarchicalGrid: React.FC = () => {
     const containerStyle = useMemo(() => ({ width: '100%', height: 'auto' }), []);
     const gridStyle = useMemo(() => ({ minHeight: '520px', width: '100%' }), []);
     const gridApiRef = useRef<GridApi | null>(null);
-    const rowData = useMemo(() => generateHierarchyData(100, 100), []);
-    const pageSize = 10;
+    const rowData = useMemo(() => generateHierarchyData(100), []);
 
     const detailParams = useMemo<IDetailCellRendererParams>(() => {
         const detailGridOptions: GridOptions = {

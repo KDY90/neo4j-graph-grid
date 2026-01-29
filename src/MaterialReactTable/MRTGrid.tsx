@@ -45,9 +45,10 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
         data,
         enableExpanding: true,
         getRowCanExpand: (row) => !!row.original.children?.length,
-        enablePagination: false,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
+        enablePagination: level === 0,
+        enableTopToolbar: level === 0,
+        enableBottomToolbar: level === 0,
+        initialState: level === 0 ? { pagination: { pageSize: 5, pageIndex: 0 } } : undefined,
         // Recursive Detail Panel
         renderDetailPanel: ({ row }) => {
             if (row.original.children && row.original.children.length > 0) {
@@ -89,14 +90,7 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
 
 // --- MAIN WRAPPER (Level 0) with SCROLL ---
 const MRTGrid: React.FC = () => {
-    const rowData = useMemo(() => generateHierarchyData(100, 100), []);
-    const [pageIndex, setPageIndex] = useState(0);
-    const pageSize = 5;
-    const pageCount = Math.ceil(rowData.length / pageSize);
-    const pagedData = useMemo(
-        () => rowData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
-        [pageIndex, pageSize, rowData]
-    );
+    const rowData = useMemo(() => generateHierarchyData(100), []);
 
     return (
         <Box sx={{
@@ -112,67 +106,7 @@ const MRTGrid: React.FC = () => {
             <Typography variant="body2" color="text.secondary" paragraph>
                 Recursive detail panels with unlimited depth.
             </Typography>
-            <RecursiveMRT data={pagedData} level={0} />
-            <div className="pagination-bar">
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(0)}
-                    disabled={pageIndex === 0}
-                >
-                    {'<<'}
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.max(prev - 1, 0))}
-                    disabled={pageIndex === 0}
-                >
-                    {'<'}
-                </button>
-                <div className="pagination-pages">
-                    {Array.from({ length: Math.min(pageCount, 5) }).map((_, index) => (
-                        <button
-                            key={`page-${index + 1}`}
-                            className="pagination-button"
-                            type="button"
-                            onClick={() => setPageIndex(index)}
-                            disabled={pageIndex === index}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
-                </div>
-                {pageCount > 5 && (
-                    <>
-                        <span className="pagination-ellipsis">...</span>
-                        <button
-                            className="pagination-button"
-                            type="button"
-                            onClick={() => setPageIndex(pageCount - 1)}
-                            disabled={pageIndex === pageCount - 1}
-                        >
-                            {pageCount}
-                        </button>
-                    </>
-                )}
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.min(prev + 1, pageCount - 1))}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    {'>'}
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(pageCount - 1)}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    {'>>'}
-                </button>
-            </div>
+            <RecursiveMRT data={rowData} level={0} />
         </Box>
     );
 };

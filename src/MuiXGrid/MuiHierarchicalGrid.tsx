@@ -18,6 +18,8 @@ const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1
 
 const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
     const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
+
     const currentName = getLevelLabel(level);
 
     const toggleRow = (id: string) => {
@@ -75,10 +77,14 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                hideFooter
+                hideFooter={level !== 0}
                 density="compact"
                 autoHeight
                 disableRowSelectionOnClick
+                pagination={level === 0}
+                paginationModel={level === 0 ? paginationModel : undefined}
+                onPaginationModelChange={level === 0 ? setPaginationModel : undefined}
+                pageSizeOptions={level === 0 ? [5, 10, 20] : undefined}
                 sx={{
                     '& .MuiDataGrid-columnHeaders': { bgcolor: '#fee500' },
                     '& .MuiDataGrid-row:nth-of-type(even)': { bgcolor: '#fffdf5' },
@@ -108,14 +114,7 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
 
 // --- MAIN LEVEL 0 WRAPPER with SCROLL ---
 const MuiHierarchicalGrid: React.FC = () => {
-    const rowData = useMemo(() => generateHierarchyData(100, 100), []);
-    const [pageIndex, setPageIndex] = useState(0);
-    const pageSize = 5;
-    const pageCount = Math.ceil(rowData.length / pageSize);
-    const pagedData = useMemo(
-        () => rowData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
-        [pageIndex, pageSize, rowData]
-    );
+    const rowData = useMemo(() => generateHierarchyData(100), []);
 
     return (
         <Box sx={{
@@ -133,67 +132,7 @@ const MuiHierarchicalGrid: React.FC = () => {
                 Free Community Edition - Expand rows to explore deeper levels.
             </Typography>
 
-            <RecursiveMuiGrid rows={pagedData} level={0} />
-            <div className="pagination-bar">
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(0)}
-                    disabled={pageIndex === 0}
-                >
-                    {'<<'}
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.max(prev - 1, 0))}
-                    disabled={pageIndex === 0}
-                >
-                    {'<'}
-                </button>
-                <div className="pagination-pages">
-                    {Array.from({ length: Math.min(pageCount, 5) }).map((_, index) => (
-                        <button
-                            key={`page-${index + 1}`}
-                            className="pagination-button"
-                            type="button"
-                            onClick={() => setPageIndex(index)}
-                            disabled={pageIndex === index}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
-                </div>
-                {pageCount > 5 && (
-                    <>
-                        <span className="pagination-ellipsis">...</span>
-                        <button
-                            className="pagination-button"
-                            type="button"
-                            onClick={() => setPageIndex(pageCount - 1)}
-                            disabled={pageIndex === pageCount - 1}
-                        >
-                            {pageCount}
-                        </button>
-                    </>
-                )}
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.min(prev + 1, pageCount - 1))}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    {'>'}
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(pageCount - 1)}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    {'>>'}
-                </button>
-            </div>
+            <RecursiveMuiGrid rows={rowData} level={0} />
         </Box>
     );
 };
