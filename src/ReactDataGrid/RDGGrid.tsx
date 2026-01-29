@@ -102,68 +102,13 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
 };
 
 const RDGGrid: React.FC = () => {
-    const rowData = useMemo(() => generateHierarchyData(100, 100), []);
-    const [pageIndex, setPageIndex] = useState(0);
-    const pageSize = 5;
-    const pageCount = Math.ceil(rowData.length / pageSize);
-    const pagedData = useMemo(
-        () => rowData.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize),
-        [pageIndex, pageSize, rowData]
-    );
+    const rowData = useMemo(() => generateHierarchyData(100), []);
 
     return (
         <div style={{ padding: '2rem', background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
             <h3>React Data Grid: Infinite-Depth Hierarchy</h3>
             <p>Recursive row injection enables nesting without depth limits.</p>
-            <NestedRDG items={pagedData} level={0} />
-            <div className="pagination-bar">
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(0)}
-                    disabled={pageIndex === 0}
-                >
-                    First
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.max(prev - 1, 0))}
-                    disabled={pageIndex === 0}
-                >
-                    Prev
-                </button>
-                <span>Page {pageIndex + 1} of {pageCount}</span>
-                <div className="pagination-pages">
-                    {Array.from({ length: Math.min(pageCount, 20) }).map((_, index) => (
-                        <button
-                            key={`page-${index + 1}`}
-                            className="pagination-button"
-                            type="button"
-                            onClick={() => setPageIndex(index)}
-                            disabled={pageIndex === index}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
-                </div>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex((prev) => Math.min(prev + 1, pageCount - 1))}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    Next
-                </button>
-                <button
-                    className="pagination-button"
-                    type="button"
-                    onClick={() => setPageIndex(pageCount - 1)}
-                    disabled={pageIndex >= pageCount - 1}
-                >
-                    Last
-                </button>
-            </div>
+            <NestedRDG items={rowData} level={0} />
         </div>
     );
 };

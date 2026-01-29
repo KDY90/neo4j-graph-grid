@@ -62,24 +62,14 @@ const createBranch = (prefix: string, branchIndex: number, depth: number): Entit
     );
 };
 
-export const generateHierarchyData = (depth: number = 100, rootCount: number = 100): Entity[] => {
-    const roots: Entity[] = [];
-
-    for (let i = 0; i < rootCount; i += 1) {
-        const prefix = `root-${i + 1}`;
-        roots.push(createEntity(
-            prefix,
-            `Group ${i + 1}`,
-            'Group',
-            pick(metricPool, i),
-            `Lead ${pick(leadPool, i)}`,
-            pick(statusPool, i),
-            [
-                createDeepChain(`${prefix}-chain`, depth),
-                createBranch(prefix, i, depth),
-            ]
-        ));
-    }
-
-    return roots;
-};
+export const generateHierarchyData = (depth: number = 100): Entity[] => [
+    createEntity('root-1', 'Kakao Group', 'Group', '$5.1B', 'CEO Lina', 'Active', [
+        createDeepChain('root-1-chain', depth),
+        createBranch('root-1', 0, depth),
+        createBranch('root-1', 1, depth)
+    ]),
+    createEntity('root-2', 'NeoCloud', 'Group', '$2.4B', 'CEO Mason', 'Active', [
+        createBranch('root-2', 0, depth),
+        createBranch('root-2', 2, depth)
+    ])
+];

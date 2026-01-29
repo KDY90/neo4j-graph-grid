@@ -195,12 +195,6 @@
   font-size: var(--font-size-sm);
 }
 
-.pagination-pages {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
 .pagination-button {
   border: 1px solid var(--border-color);
   background: #ffffff;

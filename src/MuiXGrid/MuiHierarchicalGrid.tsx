@@ -114,7 +114,7 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
 
 // --- MAIN LEVEL 0 WRAPPER with SCROLL ---
 const MuiHierarchicalGrid: React.FC = () => {
-    const rowData = useMemo(() => generateHierarchyData(100, 100), []);
+    const rowData = useMemo(() => generateHierarchyData(100), []);
 
     return (
         <Box sx={{

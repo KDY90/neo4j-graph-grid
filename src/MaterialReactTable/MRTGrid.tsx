@@ -90,7 +90,7 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
 
 // --- MAIN WRAPPER (Level 0) with SCROLL ---
 const MRTGrid: React.FC = () => {
-    const rowData = useMemo(() => generateHierarchyData(100, 100), []);
+    const rowData = useMemo(() => generateHierarchyData(100), []);
 
     return (
         <Box sx={{
