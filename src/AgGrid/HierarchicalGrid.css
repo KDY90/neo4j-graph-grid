@@ -2,7 +2,8 @@
 .example-wrapper {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
   background: #ffffff;
   border-radius: var(--radius-md);
   overflow: visible;
@@ -50,11 +51,11 @@
 }
 
 .grid-toolbar button:hover {
-
   border-color: #f7d600;
   color: #191919;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-
+  background: #fff4b8;
+}
 
 .grid-toolbar button:active {
   transform: translateY(1px);
@@ -67,14 +68,14 @@
   --ag-font-size: var(--font-size-sm);
 
   --ag-background-color: #ffffff;
-  --ag-header-background-color: #fff4b1;
+  --ag-header-background-color: #fee500;
   --ag-header-foreground-color: #191919;
 
-  --ag-row-hover-color: #fffdf1;
-  --ag-selected-row-background-color: #fff4b1;
-  --ag-range-selection-border-color: #f7d600;
+  --ag-row-hover-color: #fff7cc;
+  --ag-selected-row-background-color: #ffe97a;
+  --ag-range-selection-border-color: #ffe048;
 
-  --ag-border-color: rgba(0, 0, 0, 0.08);
+  --ag-border-color: rgba(0, 0, 0, 0.1);
 
   /* Sizing */
   --ag-grid-size: 6px;
@@ -100,9 +101,17 @@
   /* Remove vertical borders for cleaner look */
 }
 
+.ag-theme-quartz .ag-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.ag-theme-quartz .ag-row:nth-child(even) {
+  background-color: #fffdf5;
+}
+
 /* Detail Row Borders */
 .ag-details-row {
-  background-color: #fffdf2;
+  background-color: #fff9d6;
   padding: 16px;
 }
 
@@ -120,4 +129,5 @@
 .ag-details-grid {
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: var(--radius-sm);
+  overflow: visible;
 }
