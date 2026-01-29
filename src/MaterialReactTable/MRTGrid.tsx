@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import {
     MaterialReactTable,
     useMaterialReactTable,
 } from 'material-react-table';
 import type { MRT_ColumnDef } from 'material-react-table';
-import { Box, Typography, Chip } from '@mui/material';
+import { Box, Typography, Chip, Pagination } from '@mui/material'; // Pagination 추가
 import { generateHierarchyData } from '../data/mockData7';
 import type { Entity } from '../data/mockData7';
 
@@ -18,7 +18,6 @@ const levelNames = ['Group', 'Subsidiary', 'Division', 'Department', 'Team', 'Pr
 const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1}`;
 
 const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
-    // Levels: 0=Group ... 6=Task
     const currentName = getLevelLabel(level);
 
     const columns = useMemo<MRT_ColumnDef<Entity>[]>(() => [
@@ -45,10 +44,35 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
         data,
         enableExpanding: true,
         getRowCanExpand: (row) => !!row.original.children?.length,
+
+        // Pagination 설정 (최상위 레벨만)
         enablePagination: level === 0,
         enableTopToolbar: level === 0,
-        enableBottomToolbar: level === 0,
+
+        // *** 여기가 핵심 변경 부분입니다 ***
+        // 기본 툴바 대신 커스텀 페이지네이션 렌더링
+        renderBottomToolbar: level === 0 ? ({ table }) => (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', p: 2 }}>
+                <Pagination
+                    // MRT의 총 페이지 수 가져오기
+                    count={table.getPageCount()}
+                    // MRT는 0부터 시작, Pagination은 1부터 시작하므로 +1
+                    page={table.getState().pagination.pageIndex + 1}
+                    // 페이지 변경 시 MRT 상태 업데이트 (1 -> 0 변환을 위해 -1)
+                    onChange={(_, value) => table.setPageIndex(value - 1)}
+
+                    // 스타일 옵션 (원하는대로 수정 가능)
+                    color="primary"
+                    variant="outlined"
+                    shape="rounded"
+                    showFirstButton
+                    showLastButton
+                />
+            </Box>
+        ) : undefined, // 하위 레벨은 툴바 없음
+
         initialState: level === 0 ? { pagination: { pageSize: 5, pageIndex: 0 } } : undefined,
+
         // Recursive Detail Panel
         renderDetailPanel: ({ row }) => {
             if (row.original.children && row.original.children.length > 0) {
@@ -104,7 +128,7 @@ const MRTGrid: React.FC = () => {
                 Material React Table: Infinite-Depth Hierarchy
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-                Recursive detail panels with unlimited depth.
+                Recursive detail panels with numbered pagination.
             </Typography>
             <RecursiveMRT data={rowData} level={0} />
         </Box>
