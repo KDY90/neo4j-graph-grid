@@ -5,7 +5,7 @@ import {
 } from 'material-react-table';
 import type { MRT_ColumnDef } from 'material-react-table';
 import { Box, Typography, Chip } from '@mui/material';
-import { mockData7 } from '../data/mockData7';
+import { generateHierarchyData } from '../data/mockData7';
 import type { Entity } from '../data/mockData7';
 
 // --- GENERIC RECURSIVE MRT COMPONENT ---
@@ -54,8 +54,8 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
                 return (
                     <Box sx={{
                         p: 2,
-                        bgcolor: level % 2 === 0 ? '#fffdf1' : '#fff8cc',
-                        borderLeft: '3px solid #f7d600',
+                        bgcolor: level % 2 === 0 ? '#fffdf5' : '#fff9d6',
+                        borderLeft: '3px solid #ffe048',
                         borderRadius: '0 8px 8px 0'
                     }}>
                         <RecursiveMRT data={row.original.children} level={level + 1} />
@@ -89,6 +89,8 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
 
 // --- MAIN WRAPPER (Level 0) with SCROLL ---
 const MRTGrid: React.FC = () => {
+    const rowData = useMemo(() => generateHierarchyData(100), []);
+
     return (
         <Box sx={{
             padding: '2rem',
@@ -96,8 +98,6 @@ const MRTGrid: React.FC = () => {
             borderRadius: '16px',
             border: '1px solid rgba(0,0,0,0.06)',
             boxShadow: '0 18px 32px rgba(0, 0, 0, 0.08)',
-            maxHeight: 'calc(100vh - 200px)', // UX: Enable scrolling
-            overflow: 'auto'
         }}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 800 }}>
                 Material React Table: Infinite-Depth Hierarchy
@@ -105,7 +105,7 @@ const MRTGrid: React.FC = () => {
             <Typography variant="body2" color="text.secondary" paragraph>
                 Recursive detail panels with unlimited depth.
             </Typography>
-            <RecursiveMRT data={mockData7} level={0} />
+            <RecursiveMRT data={rowData} level={0} />
         </Box>
     );
 };
