@@ -3,13 +3,19 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background-color: var(--bg-app);
+  background:
+    radial-gradient(circle at top left, rgba(49, 130, 246, 0.15), transparent 45%),
+    radial-gradient(circle at top right, rgba(22, 199, 154, 0.18), transparent 40%),
+    radial-gradient(circle at 30% 70%, rgba(255, 184, 0, 0.15), transparent 45%),
+    linear-gradient(180deg, #f8fbff 0%, #f4f7fb 100%);
+  position: relative;
+  overflow: hidden;
 }
 
 /* --- Header --- */
 .app-header {
   height: 64px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -18,6 +24,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
 .brand-logo {
@@ -32,7 +39,7 @@
 }
 
 /* --- Navigation --- */
-.app-nav {
+.app-header-nav {
   display: flex;
   gap: 8px;
 }
@@ -59,7 +66,7 @@
 }
 
 /* --- Main Content --- */
-.app-main {
+.app-content {
   flex: 1;
   padding: 24px;
   overflow-y: auto;
@@ -67,6 +74,48 @@
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 32px;
+  backdrop-filter: blur(6px);
+}
+
+.nav-menu {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.nav-link-card {
+  display: block;
+  border-radius: var(--radius-md);
+  background: white;
+  border: 1px solid var(--neutral-200);
+  padding: 18px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.nav-link-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+}
+
+.nav-card-item h2 {
+  margin: 12px 0 6px;
+  font-size: 18px;
+  color: var(--neutral-900);
+}
+
+.nav-card-item p {
+  font-size: 13px;
+  color: var(--neutral-600);
 }
 
 /* --- Component: Premium Card --- */
@@ -146,6 +195,16 @@
   font-size: 12px;
   font-weight: 700;
   display: inline-block;
+}
+
+.badge-ag {
+  background: rgba(35, 82, 255, 0.12);
+  color: #2041d5;
+}
+
+.badge-ts {
+  background: rgba(0, 184, 148, 0.15);
+  color: #0b8d74;
 }
 
 .badge-success {

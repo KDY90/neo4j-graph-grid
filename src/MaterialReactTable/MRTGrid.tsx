@@ -14,11 +14,12 @@ interface RecursiveMRTProps {
     level: number;
 }
 
+const levelNames = ['Group', 'Subsidiary', 'Division', 'Department', 'Team', 'Project', 'Task'];
+const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1}`;
+
 const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
     // Levels: 0=Group ... 6=Task
-    const levelNames = ['Group', 'Subsidiary', 'Division', 'Department', 'Team', 'Project', 'Task'];
-    const currentName = levelNames[level] || 'Item';
-    const isLeaf = level >= 6;
+    const currentName = getLevelLabel(level);
 
     const columns = useMemo<MRT_ColumnDef<Entity>[]>(() => [
         { accessorKey: 'name', header: `${currentName} Name` },
@@ -42,7 +43,8 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
     const table = useMaterialReactTable({
         columns,
         data,
-        enableExpanding: !isLeaf,
+        enableExpanding: true,
+        getRowCanExpand: (row) => !!row.original.children?.length,
         enablePagination: false,
         enableTopToolbar: false,
         enableBottomToolbar: false,
@@ -77,9 +79,9 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
 
     return (
         <Box sx={{ width: '100%', mb: 1 }}>
-            {!isLeaf && <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'text.secondary', mb: 1, display: 'block' }}>
+            <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'text.secondary', mb: 1, display: 'block' }}>
                 LEVEL {level + 1}: {currentName}s
-            </Typography>}
+            </Typography>
             <MaterialReactTable table={table} />
         </Box>
     );
@@ -97,10 +99,10 @@ const MRTGrid: React.FC = () => {
             overflow: 'auto'
         }}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 800 }}>
-                Material React Table: 7-Level Recursive Nesting
+                Material React Table: Infinite-Depth Hierarchy
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-                Recursive Component
+                Recursive detail panels with unlimited depth.
             </Typography>
             <RecursiveMRT data={mockData7} level={0} />
         </Box>
