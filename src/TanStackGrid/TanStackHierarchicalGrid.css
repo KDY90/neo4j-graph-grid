@@ -1,0 +1,127 @@
+/* TanStack Container - Allow nested growth */
+.tanstack-wrapper {
+    background: var(--bg-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    overflow: visible;
+    /* CRITICAL: No clipping */
+}
+
+.tanstack-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    /* Prevent table blowout */
+}
+
+.tanstack-table th {
+    background: var(--neutral-50);
+    color: var(--neutral-500);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.tanstack-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--neutral-900);
+    font-size: 13px;
+    vertical-align: top;
+    /* Align nested content properly */
+}
+
+/* Detail Panel - KEY FIX: Remove max-height to prevent clipping */
+.tanstack-detail-panel {
+    background: var(--neutral-50);
+    padding: 1rem 1.5rem;
+    margin: 0;
+    border-left: 3px solid var(--color-primary-400);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    /* Remove max-height to prevent clipping of deeply nested content */
+    /* Use scroll only on the MAIN wrapper if needed */
+}
+
+.tanstack-detail-panel .level-header {
+    margin: 0 0 0.75rem 0;
+    color: var(--color-primary-600);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Nested Table Styling - More compact */
+.detail-table {
+    width: 100%;
+}
+
+.detail-table th {
+    background: transparent;
+    border-bottom: 1px solid var(--neutral-200);
+    color: var(--neutral-500);
+    font-size: 11px;
+    padding: 0.5rem;
+}
+
+.detail-table td {
+    border-bottom: 1px solid var(--neutral-100);
+    padding: 0.5rem;
+    font-size: 12px;
+}
+
+/* Visual hierarchy via left-border intensity */
+.level-0 {
+    border-left-color: var(--color-primary-600);
+}
+
+.level-1 {
+    border-left-color: var(--color-primary-500);
+    background: var(--neutral-50);
+}
+
+.level-2 {
+    border-left-color: var(--color-primary-400);
+    background: var(--color-primary-50);
+}
+
+.level-3 {
+    border-left-color: var(--color-primary-300);
+    background: #fff;
+}
+
+.level-4 {
+    border-left-color: var(--color-primary-200);
+    background: var(--neutral-50);
+}
+
+.level-5 {
+    border-left-color: var(--neutral-300);
+    background: #fff;
+}
+
+.level-6 {
+    border-left-color: var(--neutral-200);
+    background: var(--neutral-50);
+}
+
+/* Toggle Button */
+.btn-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0.25rem 0.5rem;
+    color: var(--color-primary-500);
+    border-radius: 4px;
+}
+
+.btn-toggle:hover {
+    background: var(--color-primary-50);
+}

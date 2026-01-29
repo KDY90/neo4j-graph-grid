@@ -1,0 +1,94 @@
+/* Wrapper for the grid component */
+.example-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  overflow: visible;
+  /* FIX: Allow nested grids to expand */
+  box-shadow: var(--shadow-sm);
+  /* Subtle shadow */
+  border: 1px solid var(--border-color);
+}
+
+.example-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-surface);
+}
+
+.example-header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--neutral-900);
+}
+
+.example-header p {
+  margin: 0;
+  color: var(--neutral-700);
+  font-size: var(--font-size-sm);
+}
+
+/* AG Grid Quartz Theme Customization - NeKaRaCuBae Style */
+.ag-theme-quartz {
+  /* Font & Colors */
+  --ag-font-family: var(--font-family);
+  --ag-font-size: var(--font-size-sm);
+
+  --ag-background-color: var(--bg-surface);
+  --ag-header-background-color: var(--neutral-50);
+  --ag-header-foreground-color: var(--neutral-700);
+
+  --ag-row-hover-color: var(--neutral-50);
+  --ag-selected-row-background-color: var(--color-primary-50);
+  --ag-range-selection-border-color: var(--color-primary-500);
+
+  --ag-border-color: var(--border-color);
+
+  /* Sizing */
+  --ag-grid-size: 6px;
+  --ag-list-item-height: 40px;
+  --ag-header-height: 48px;
+  --ag-row-height: 52px;
+  /* Breathable rows */
+}
+
+/* Header Text Styling: Clean, uppercase or sentence case */
+.ag-theme-quartz .ag-header-cell-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--neutral-500);
+}
+
+/* Cell Content */
+.ag-theme-quartz .ag-cell {
+  display: flex;
+  align-items: center;
+  color: var(--neutral-900);
+  border-right: none !important;
+  /* Remove vertical borders for cleaner look */
+}
+
+/* Detail Row Borders */
+.ag-details-row {
+  background-color: var(--neutral-50);
+  padding: 16px;
+}
+
+/* Status Pills */
+.status-active {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.status-default {
+  color: var(--neutral-500);
+}
+
+/* Detail Grid specific override */
+.ag-details-grid {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}

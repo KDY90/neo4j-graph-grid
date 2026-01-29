@@ -1,0 +1,132 @@
+import React, { useState, useMemo } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import type { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { Box, Typography, Chip, IconButton, Collapse } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { mockData7 } from '../data/mockData7';
+import type { Entity } from '../data/mockData7';
+
+// --- RECURSIVE MUI GRID COMPONENT (Community Edition) ---
+interface RecursiveMuiGridProps {
+    rows: Entity[];
+    level: number;
+}
+
+const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
+    const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+    const levelNames = ['Group', 'Subsidiary', 'Division', 'Department', 'Team', 'Project', 'Task'];
+    const currentName = levelNames[level] || 'Item';
+    const isLeaf = level >= 6;
+
+    const toggleRow = (id: string) => {
+        setExpandedRows(prev => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return next;
+        });
+    };
+
+    const columns: GridColDef[] = useMemo(() => [
+        {
+            field: 'expander',
+            headerName: '',
+            width: 50,
+            sortable: false,
+            renderCell: (params: GridRenderCellParams) => {
+                const hasChildren = params.row.children && params.row.children.length > 0;
+                if (!hasChildren || isLeaf) return null;
+                const isExpanded = expandedRows.has(params.row.id);
+                return (
+                    <IconButton size="small" onClick={() => toggleRow(params.row.id)}>
+                        {isExpanded ? <ExpandMoreIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                );
+            }
+        },
+        { field: 'name', headerName: `${currentName} Name`, flex: 1, minWidth: 200 },
+        { field: 'metric', headerName: 'Metric', width: 120 },
+        { field: 'lead', headerName: 'Lead', width: 150 },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 120,
+            renderCell: (params: GridRenderCellParams) => (
+                <Chip
+                    label={params.value}
+                    size="small"
+                    color={params.value === 'Active' ? 'success' : 'default'}
+                    variant={params.value === 'Active' ? 'filled' : 'outlined'}
+                />
+            )
+        },
+    ], [currentName, isLeaf, expandedRows]);
+
+    return (
+        <Box sx={{ width: '100%', mb: 1 }}>
+            <Typography variant="caption" sx={{ fontWeight: 'bold', color: 'text.secondary', p: 1, display: 'block' }}>
+                LEVEL {level + 1}: {currentName.toUpperCase()}
+            </Typography>
+            <DataGrid
+                rows={rows}
+                columns={columns}
+                hideFooter
+                density="compact"
+                autoHeight
+                disableRowSelectionOnClick
+                sx={{
+                    '& .MuiDataGrid-columnHeaders': { bgcolor: 'var(--neutral-100)' },
+                    borderColor: 'var(--border-color)',
+                    border: level > 0 ? '1px dashed #ccc' : 'none'
+                }}
+            />
+            {/* Render expanded children */}
+            {rows.map(row => (
+                <Collapse key={row.id} in={expandedRows.has(row.id)} timeout="auto" unmountOnExit>
+                    <Box sx={{
+                        pl: 4,
+                        py: 1,
+                        bgcolor: level % 2 === 0 ? 'var(--neutral-50)' : 'var(--color-primary-50)',
+                        borderLeft: '3px solid var(--color-primary-400)',
+                        borderRadius: '0 8px 8px 0'
+                    }}>
+                        {row.children && row.children.length > 0 && (
+                            <RecursiveMuiGrid rows={row.children} level={level + 1} />
+                        )}
+                    </Box>
+                </Collapse>
+            ))}
+        </Box>
+    );
+};
+
+// --- MAIN LEVEL 0 WRAPPER with SCROLL ---
+const MuiHierarchicalGrid: React.FC = () => {
+    return (
+        <Box sx={{
+            maxHeight: 'calc(100vh - 200px)', // Viewport-based max height
+            width: '100%',
+            bgcolor: 'background.paper',
+            p: 2,
+            borderRadius: 2,
+            boxShadow: 3,
+            overflow: 'auto' // SCROLL FIX
+        }}>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
+                MUI X Data Grid (Community): 7-Level Recursive Nesting
+            </Typography>
+            <Typography variant="body2" color="text.secondary" paragraph>
+                Free Community Edition - No License Required
+            </Typography>
+
+            <RecursiveMuiGrid rows={mockData7} level={0} />
+        </Box>
+    );
+};
+
+export default MuiHierarchicalGrid;

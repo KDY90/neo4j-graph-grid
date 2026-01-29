@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* --- NEKARACUBAE DESIGN TOKENS --- */
+
+  /* 1. Palette: "Tech Productivity" */
+  /* Primary: Professional Blue (Similar to Toss/Teams) */
+  --color-primary-50: #e8f3ff;
+  --color-primary-100: #c9e2ff;
+  --color-primary-500: #3182f6;
+  /* Core Brand Color */
+  --color-primary-600: #1b64da;
+  --color-primary-900: #0b2a60;
+
+  /* Neutral: High Legibility (Slate-ish) */
+  --neutral-0: #ffffff;
+  --neutral-50: #f9fafb;
+  --neutral-100: #f2f4f6;
+  /* "App Background" */
+  --neutral-200: #e5e8eb;
+  /* Borders */
+  --neutral-300: #d1d6db;
+  --neutral-500: #8b95a1;
+  /* "Caption" */
+  --neutral-700: #4e5968;
+  /* "Body Text" */
+  --neutral-800: #333d4b;
+  /* "Headings" */
+  --neutral-900: #191f28;
+  /* "Primary Text" */
+
+  /* Semantic */
+  --color-success: #34c759;
+  --color-warning: #ffb302;
+  --color-error: #ff3b30;
+
+  /* 2. Surfaces */
+  --bg-app: var(--neutral-100);
+  --bg-surface: var(--neutral-0);
+  --bg-surface-hover: var(--neutral-50);
+  --border-color: var(--neutral-200);
+
+  /* 3. Typography (Inter mimics Pretendard well) */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 24px;
+  --font-size-2xl: 32px;
+
+  /* 4. Elevation (Soft, diffused shadows) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.03), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+  --shadow-float: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+
+  /* 5. Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  /* Modern Standard */
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+}
+
+/* Global Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-app);
+  color: var(--neutral-900);
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Scrollbar specific to "NeKaRaCuBae" style (Minimal) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--neutral-300);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--neutral-500);
+}
