@@ -25,8 +25,8 @@ ModuleRegistry.registerModules([
 ]);
 
 const HierarchicalGrid: React.FC = () => {
-    const containerStyle = useMemo(() => ({ width: '100%', height: '100%', maxHeight: 'calc(100vh - 200px)', overflow: 'auto' }), []);
-    const gridStyle = useMemo(() => ({ height: '700px', width: '100%' }), []);
+    const containerStyle = useMemo(() => ({ width: '100%', height: 'auto' }), []);
+    const gridStyle = useMemo(() => ({ minHeight: '520px', width: '100%' }), []);
     const gridApiRef = useRef<GridApi | null>(null);
 
     const detailParams = useMemo<IDetailCellRendererParams>(() => {
@@ -98,6 +98,7 @@ const HierarchicalGrid: React.FC = () => {
                     masterDetail={true}
                     detailCellRendererParams={detailParams}
                     detailRowAutoHeight={true}
+                    domLayout="autoHeight"
                     defaultColDef={{ flex: 1, sortable: true, resizable: true }}
                     onFirstDataRendered={(params: FirstDataRenderedEvent) => {
                         params.api.getDisplayedRowAtIndex(0)?.setExpanded(true);
