@@ -13,12 +13,13 @@ interface RecursiveMuiGridProps {
     level: number;
 }
 
+const levelNames = ['Group', 'Subsidiary', 'Division', 'Department', 'Team', 'Project', 'Task'];
+const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1}`;
+
 const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
     const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
 
-    const levelNames = ['Group', 'Subsidiary', 'Division', 'Department', 'Team', 'Project', 'Task'];
-    const currentName = levelNames[level] || 'Item';
-    const isLeaf = level >= 6;
+    const currentName = getLevelLabel(level);
 
     const toggleRow = (id: string) => {
         setExpandedRows(prev => {
@@ -40,7 +41,7 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
             sortable: false,
             renderCell: (params: GridRenderCellParams) => {
                 const hasChildren = params.row.children && params.row.children.length > 0;
-                if (!hasChildren || isLeaf) return null;
+                if (!hasChildren) return null;
                 const isExpanded = expandedRows.has(params.row.id);
                 return (
                     <IconButton size="small" onClick={() => toggleRow(params.row.id)}>
@@ -65,7 +66,7 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
                 />
             )
         },
-    ], [currentName, isLeaf, expandedRows]);
+    ], [currentName, expandedRows]);
 
     return (
         <Box sx={{ width: '100%', mb: 1 }}>
@@ -118,10 +119,10 @@ const MuiHierarchicalGrid: React.FC = () => {
             overflow: 'auto' // SCROLL FIX
         }}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
-                MUI X Data Grid (Community): 7-Level Recursive Nesting
+                MUI X Data Grid (Community): Infinite-Depth Hierarchy
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-                Free Community Edition - No License Required
+                Free Community Edition - Expand rows to explore deeper levels.
             </Typography>
 
             <RecursiveMuiGrid rows={mockData7} level={0} />

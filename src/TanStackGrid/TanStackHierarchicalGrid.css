@@ -7,6 +7,16 @@
     border: 1px solid var(--border-color);
     overflow: visible;
     /* CRITICAL: No clipping */
+    --level-accent-0: var(--color-primary-600);
+    --level-accent-1: var(--color-primary-500);
+    --level-accent-2: var(--color-primary-400);
+    --level-accent-3: var(--color-primary-300);
+    --level-accent-4: var(--color-primary-200);
+    --level-accent-5: var(--neutral-300);
+    --level-bg-0: var(--neutral-50);
+    --level-bg-1: var(--color-primary-50);
+    --level-bg-2: #fff;
+    --level-bg-3: var(--neutral-50);
 }
 
 .tanstack-table {
@@ -74,41 +84,6 @@
     border-bottom: 1px solid var(--neutral-100);
     padding: 0.5rem;
     font-size: 12px;
-}
-
-/* Visual hierarchy via left-border intensity */
-.level-0 {
-    border-left-color: var(--color-primary-600);
-}
-
-.level-1 {
-    border-left-color: var(--color-primary-500);
-    background: var(--neutral-50);
-}
-
-.level-2 {
-    border-left-color: var(--color-primary-400);
-    background: var(--color-primary-50);
-}
-
-.level-3 {
-    border-left-color: var(--color-primary-300);
-    background: #fff;
-}
-
-.level-4 {
-    border-left-color: var(--color-primary-200);
-    background: var(--neutral-50);
-}
-
-.level-5 {
-    border-left-color: var(--neutral-300);
-    background: #fff;
-}
-
-.level-6 {
-    border-left-color: var(--neutral-200);
-    background: var(--neutral-50);
 }
 
 /* Toggle Button */
