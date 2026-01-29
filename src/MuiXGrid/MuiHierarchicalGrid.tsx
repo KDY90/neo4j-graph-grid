@@ -4,7 +4,7 @@ import type { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { Box, Typography, Chip, IconButton, Collapse } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { mockData7 } from '../data/mockData7';
+import { generateHierarchyData } from '../data/mockData7';
 import type { Entity } from '../data/mockData7';
 
 // --- RECURSIVE MUI GRID COMPONENT (Community Edition) ---
@@ -81,7 +81,8 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
                 autoHeight
                 disableRowSelectionOnClick
                 sx={{
-                    '& .MuiDataGrid-columnHeaders': { bgcolor: '#fff4b1' },
+                    '& .MuiDataGrid-columnHeaders': { bgcolor: '#fee500' },
+                    '& .MuiDataGrid-row:nth-of-type(even)': { bgcolor: '#fffdf5' },
                     borderColor: 'var(--border-color)',
                     border: level > 0 ? '1px dashed #ccc' : 'none'
                 }}
@@ -92,8 +93,8 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
                     <Box sx={{
                         pl: 4,
                         py: 1,
-                        bgcolor: level % 2 === 0 ? '#fffdf1' : '#fff8cc',
-                        borderLeft: '3px solid #f7d600',
+                        bgcolor: level % 2 === 0 ? '#fffdf5' : '#fff9d6',
+                        borderLeft: '3px solid #ffe048',
                         borderRadius: '0 8px 8px 0'
                     }}>
                         {row.children && row.children.length > 0 && (
@@ -108,16 +109,16 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
 
 // --- MAIN LEVEL 0 WRAPPER with SCROLL ---
 const MuiHierarchicalGrid: React.FC = () => {
+    const rowData = useMemo(() => generateHierarchyData(100), []);
+
     return (
         <Box sx={{
-            maxHeight: 'calc(100vh - 200px)', // Viewport-based max height
             width: '100%',
             bgcolor: '#ffffff',
             p: 2,
             borderRadius: 2,
             border: '1px solid rgba(0,0,0,0.06)',
             boxShadow: '0 18px 32px rgba(0, 0, 0, 0.08)',
-            overflow: 'auto' // SCROLL FIX
         }}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
                 MUI X Data Grid (Community): Infinite-Depth Hierarchy
@@ -126,7 +127,7 @@ const MuiHierarchicalGrid: React.FC = () => {
                 Free Community Edition - Expand rows to explore deeper levels.
             </Typography>
 
-            <RecursiveMuiGrid rows={mockData7} level={0} />
+            <RecursiveMuiGrid rows={rowData} level={0} />
         </Box>
     );
 };

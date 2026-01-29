@@ -28,33 +28,41 @@
 }
 
 .tanstack-table th {
-    background: #fff4b1;
+    background: #fee500;
     color: #191919;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-weight: 700;
+    text-transform: none;
     font-size: 12px;
-    letter-spacing: 0.05em;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    letter-spacing: 0.02em;
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     text-align: left;
     white-space: nowrap;
 }
 
 .tanstack-table td {
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     color: var(--neutral-900);
     font-size: 13px;
     vertical-align: top;
     /* Align nested content properly */
 }
 
+.tanstack-table tbody tr:nth-child(even) td {
+    background: #fffdf5;
+}
+
+.tanstack-table tbody tr:hover td {
+    background: #fff7cc;
+}
+
 /* Detail Panel - KEY FIX: Remove max-height to prevent clipping */
 .tanstack-detail-panel {
-    background: #fffdf2;
+    background: #fff9d6;
     padding: 1rem 1.5rem;
     margin: 0;
-    border-left: 3px solid #f7d600;
+    border-left: 3px solid #ffe048;
     border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     /* Remove max-height to prevent clipping of deeply nested content */
     /* Use scroll only on the MAIN wrapper if needed */
@@ -74,14 +82,14 @@
 
 .detail-table th {
     background: transparent;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-    color: #4a4a4a;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #3a3a3a;
     font-size: 11px;
     padding: 0.5rem;
 }
 
 .detail-table td {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     padding: 0.5rem;
     font-size: 12px;
 }
