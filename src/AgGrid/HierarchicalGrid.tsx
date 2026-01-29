@@ -14,7 +14,7 @@ import type {
     GridApi
 } from 'ag-grid-community';
 
-import { mockData7 } from '../data/mockData7';
+import { generateHierarchyData } from '../data/mockData7';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 import './HierarchicalGrid.css';
@@ -28,6 +28,8 @@ const HierarchicalGrid: React.FC = () => {
     const containerStyle = useMemo(() => ({ width: '100%', height: 'auto' }), []);
     const gridStyle = useMemo(() => ({ minHeight: '520px', width: '100%' }), []);
     const gridApiRef = useRef<GridApi | null>(null);
+    const rowData = useMemo(() => generateHierarchyData(100), []);
+    const pageSize = 10;
 
     const detailParams = useMemo<IDetailCellRendererParams>(() => {
         const detailGridOptions: GridOptions = {
@@ -94,13 +96,16 @@ const HierarchicalGrid: React.FC = () => {
                             gridApiRef.current = node.api;
                         }
                     }}
-                    rowData={mockData7}
+                    rowData={rowData}
                     columnDefs={masterColumnDefs}
                     masterDetail={true}
                     detailCellRendererParams={detailParams}
                     detailRowAutoHeight={true}
                     domLayout="autoHeight"
                     defaultColDef={{ flex: 1, sortable: true, resizable: true }}
+                    pagination={true}
+                    paginationPageSize={pageSize}
+                    paginationPageSizeSelector={[10, 20, 50]}
                     onFirstDataRendered={(params: FirstDataRenderedEvent) => {
                         params.api.getDisplayedRowAtIndex(0)?.setExpanded(true);
                     }}
