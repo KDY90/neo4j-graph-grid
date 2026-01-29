@@ -12,19 +12,20 @@ interface NestedRDGProps {
     level: number;
 }
 
+const levelNames = ['Group', 'Subsidiary', 'Division', 'Dept', 'Team', 'Project', 'Task'];
+const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1}`;
+
 const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
     // Flatten rows for RDG + Injection
     // We start with the items. When expanded, we inject a 'DETAIL' row.
     const [rows, setRows] = useState<any[]>(items.map((i: any) => ({ ...i, type: 'MASTER', expanded: false })));
 
     // Levels: 0=Group -> 6=Task
-    const levelNames = ['Group', 'Subsidiary', 'Division', 'Dept', 'Team', 'Project', 'Task'];
-    const currentName = levelNames[level] || 'Item';
-    const isLeaf = level >= 6;
+    const currentName = getLevelLabel(level);
 
     // Toggle Handler
     const toggleRow = (id: string, childrenData: Entity[]) => {
-        if (isLeaf) return;
+        if (!childrenData || childrenData.length === 0) return;
 
         const idx = rows.findIndex(r => r.id === id);
         if (idx === -1) return;
@@ -46,6 +47,14 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
         setRows(newRows);
     };
 
+    const estimateDetailHeight = (childrenData: Entity[], depth: number) => {
+        const baseRowHeight = 46;
+        const headerHeight = 52;
+        const padding = 32;
+        const rowsCount = Math.max(childrenData.length, 1);
+        return headerHeight + rowsCount * baseRowHeight + padding + depth * 6;
+    };
+
     // Columns Definition
     const columns = useMemo(() => {
         // Master Columns
@@ -58,7 +67,7 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
                     if (p.row.type === 'DETAIL') {
                         // RENDER RECURSIVE CHILD
                         return (
-                            <div style={{ padding: 20, background: level % 2 === 0 ? '#fafafa' : '#f0f9ff' }}>
+                            <div style={{ padding: 20, background: level % 2 === 0 ? '#fffdf1' : '#fff8cc' }}>
                                 <NestedRDG items={p.row.data} level={level + 1} />
                             </div>
                         );
@@ -82,22 +91,34 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
         return cols;
     }, [level, rows]); // Re-calc if rows change (expand state)
 
+    const gridHeight = useMemo(() => {
+        const baseRowHeight = 45;
+        const headerHeight = 52;
+        const buffer = 32;
+        return headerHeight + rows.length * baseRowHeight + buffer;
+    }, [rows.length]);
+
     return (
         <DataGrid
             columns={columns}
             rows={rows}
-            rowHeight={(args: any) => args.type === 'DETAIL' ? (isLeaf ? 50 : 400) : 45} // 400px for nested grid
+            rowHeight={(args: any) => {
+                if (args.type === 'DETAIL') {
+                    return estimateDetailHeight(args.row.data ?? [], level);
+                }
+                return 45;
+            }}
             className="rdg-light"
-            style={{ height: '100%', minHeight: 100 }}
+            style={{ height: gridHeight, minHeight: 120 }}
         />
     );
 };
 
 const RDGGrid: React.FC = () => {
     return (
-        <div style={{ padding: '2rem', background: 'white', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', maxHeight: 'calc(100vh - 200px)', overflow: 'auto' }}>
-            <h3>React Data Grid: 7-Level Recursive Nesting</h3>
-            <p>Using Recursive Row Injection (Group &rarr; ... &rarr; Task)</p>
+        <div style={{ padding: '2rem', background: '#ffffff', borderRadius: '16px', border: '1px solid rgba(0,0,0,0.06)', boxShadow: '0 18px 32px rgba(0,0,0,0.08)', maxHeight: 'calc(100vh - 200px)', overflow: 'auto' }}>
+            <h3>React Data Grid: Infinite-Depth Hierarchy</h3>
+            <p>Recursive row injection enables nesting without depth limits.</p>
             <NestedRDG items={mockData7} level={0} />
         </div>
     );

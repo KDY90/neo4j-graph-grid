@@ -1,5 +1,5 @@
-// 7-Level Hierarchy Interface
-export type Level = 'Group' | 'Subsidiary' | 'Division' | 'Department' | 'Team' | 'Project' | 'Task';
+// Hierarchy Interface (supports arbitrary depth)
+export type Level = string;
 
 export interface Entity {
     id: string;
@@ -12,8 +12,22 @@ export interface Entity {
 }
 
 // Helper to create data
-export const createEntity = (id: string, name: string, level: Level, metric: string, lead: string, status: string = 'Active', children: Entity[] = []): Entity => ({
-    id, name, level, metric, lead, status, children
+export const createEntity = (
+    id: string,
+    name: string,
+    level: Level,
+    metric: string,
+    lead: string,
+    status: string = 'Active',
+    children: Entity[] = []
+): Entity => ({
+    id,
+    name,
+    level,
+    metric,
+    lead,
+    status,
+    children
 });
 
 // MOCK DATA GENERATION
@@ -46,7 +60,30 @@ const subsidiaries = (prefix: string): Entity[] => [
     createEntity(`${prefix}-s2`, 'TechNova EU', 'Subsidiary', '$80M', 'Ivan', 'Active', []),
 ];
 
+const deepChain = (prefix: string, depth: number, baseDepth: number, index: number = 0): Entity => {
+    const levelName = `Depth ${baseDepth + index}`;
+    const children = depth > 1 ? [deepChain(prefix, depth - 1, baseDepth, index + 1)] : [];
+    return createEntity(
+        `${prefix}-d${index + 1}`,
+        `${levelName} Node`,
+        levelName,
+        `${depth * 3} units`,
+        `Lead ${index + 1}`,
+        depth % 2 === 0 ? 'Active' : 'Planning',
+        children
+    );
+};
+
+const buildDeepHierarchy = (prefix: string, depth: number): Entity => {
+    return deepChain(prefix, depth, 2);
+};
+
+const deepHierarchyDepth = 18;
+
 export const mockData7: Entity[] = [
-    createEntity('g1', 'TechNova Group (L1)', 'Group', '$5B', 'Judy', 'Active', subsidiaries('g1')),
-    createEntity('g2', 'GreenFuture (L1)', 'Group', '$2B', 'Karl', 'Active', []),
+    createEntity('g1', 'TechNova Group (L1)', 'Group', '$5B', 'Judy', 'Active', [
+        ...subsidiaries('g1'),
+        buildDeepHierarchy('g1-deep', deepHierarchyDepth)
+    ]),
+    createEntity('g2', 'GreenFuture (L1)', 'Group', '$2B', 'Karl', 'Active', subsidiaries('g2')),
 ];

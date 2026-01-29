@@ -4,29 +4,31 @@
   /* --- NEKARACUBAE DESIGN TOKENS --- */
 
   /* 1. Palette: "Tech Productivity" */
-  /* Primary: Professional Blue (Similar to Toss/Teams) */
-  --color-primary-50: #e8f3ff;
-  --color-primary-100: #c9e2ff;
-  --color-primary-500: #3182f6;
+  /* Primary: Kakao Yellow */
+  --color-primary-50: #fff9c4;
+  --color-primary-100: #fff3a3;
+  --color-primary-500: #fee500;
   /* Core Brand Color */
-  --color-primary-600: #1b64da;
-  --color-primary-900: #0b2a60;
+  --color-primary-600: #f7d600;
+  --color-primary-900: #2d2a26;
 
   /* Neutral: High Legibility (Slate-ish) */
   --neutral-0: #ffffff;
-  --neutral-50: #f9fafb;
-  --neutral-100: #f2f4f6;
+  --neutral-50: #fafafa;
+  --neutral-100: #f7f7f7;
   /* "App Background" */
-  --neutral-200: #e5e8eb;
+  --neutral-200: #e2e2e2;
   /* Borders */
-  --neutral-300: #d1d6db;
-  --neutral-500: #8b95a1;
+  --neutral-300: #d0d0d0;
+  --neutral-500: #9e9e9e;
   /* "Caption" */
-  --neutral-700: #4e5968;
+  --neutral-600: #6a6a6a;
+  /* "Subtle text" */
+  --neutral-700: #4a4a4a;
   /* "Body Text" */
-  --neutral-800: #333d4b;
+  --neutral-800: #2b2b2b;
   /* "Headings" */
-  --neutral-900: #191f28;
+  --neutral-900: #191919;
   /* "Primary Text" */
 
   /* Semantic */
