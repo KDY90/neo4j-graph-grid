@@ -18,6 +18,7 @@ const getLevelLabel = (level: number) => levelNames[level] ?? `Level ${level + 1
 
 const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
     const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+    const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 5 });
 
     const currentName = getLevelLabel(level);
 
@@ -76,10 +77,14 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
             <DataGrid
                 rows={rows}
                 columns={columns}
-                hideFooter
+                hideFooter={level !== 0}
                 density="compact"
                 autoHeight
                 disableRowSelectionOnClick
+                pagination={level === 0}
+                paginationModel={level === 0 ? paginationModel : undefined}
+                onPaginationModelChange={level === 0 ? setPaginationModel : undefined}
+                pageSizeOptions={level === 0 ? [5, 10, 20] : undefined}
                 sx={{
                     '& .MuiDataGrid-columnHeaders': { bgcolor: '#fee500' },
                     '& .MuiDataGrid-row:nth-of-type(even)': { bgcolor: '#fffdf5' },

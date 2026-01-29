@@ -102,6 +102,9 @@ const HierarchicalGrid: React.FC = () => {
                     detailRowAutoHeight={true}
                     domLayout="autoHeight"
                     defaultColDef={{ flex: 1, sortable: true, resizable: true }}
+                    pagination={true}
+                    paginationPageSize={pageSize}
+                    paginationPageSizeSelector={[10, 20, 50]}
                     onFirstDataRendered={(params: FirstDataRenderedEvent) => {
                         params.api.getDisplayedRowAtIndex(0)?.setExpanded(true);
                     }}

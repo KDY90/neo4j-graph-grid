@@ -45,9 +45,10 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
         data,
         enableExpanding: true,
         getRowCanExpand: (row) => !!row.original.children?.length,
-        enablePagination: false,
-        enableTopToolbar: false,
-        enableBottomToolbar: false,
+        enablePagination: level === 0,
+        enableTopToolbar: level === 0,
+        enableBottomToolbar: level === 0,
+        initialState: level === 0 ? { pagination: { pageSize: 5, pageIndex: 0 } } : undefined,
         // Recursive Detail Panel
         renderDetailPanel: ({ row }) => {
             if (row.original.children && row.original.children.length > 0) {
