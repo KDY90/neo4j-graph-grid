@@ -54,8 +54,8 @@ const RecursiveMRT: React.FC<RecursiveMRTProps> = ({ data, level }) => {
                 return (
                     <Box sx={{
                         p: 2,
-                        bgcolor: level % 2 === 0 ? 'var(--neutral-50)' : 'var(--color-primary-50)',
-                        borderLeft: '3px solid var(--color-primary-400)',
+                        bgcolor: level % 2 === 0 ? '#fffdf1' : '#fff8cc',
+                        borderLeft: '3px solid #f7d600',
                         borderRadius: '0 8px 8px 0'
                     }}>
                         <RecursiveMRT data={row.original.children} level={level + 1} />
@@ -92,9 +92,10 @@ const MRTGrid: React.FC = () => {
     return (
         <Box sx={{
             padding: '2rem',
-            bgcolor: 'var(--bg-surface)',
+            bgcolor: '#ffffff',
             borderRadius: '16px',
-            boxShadow: 'var(--shadow-lg)',
+            border: '1px solid rgba(0,0,0,0.06)',
+            boxShadow: '0 18px 32px rgba(0, 0, 0, 0.08)',
             maxHeight: 'calc(100vh - 200px)', // UX: Enable scrolling
             overflow: 'auto'
         }}>

@@ -47,6 +47,7 @@ const HierarchicalGrid: React.FC = () => {
             detailRowHeight: 320,
             isRowMaster: (data) => !!data?.children?.length,
             masterDetail: true,
+            domLayout: 'autoHeight',
         };
 
         const params: IDetailCellRendererParams = {

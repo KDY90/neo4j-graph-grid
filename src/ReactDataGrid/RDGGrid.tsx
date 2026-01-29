@@ -47,6 +47,14 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
         setRows(newRows);
     };
 
+    const estimateDetailHeight = (childrenData: Entity[], depth: number) => {
+        const baseRowHeight = 46;
+        const headerHeight = 52;
+        const padding = 32;
+        const rowsCount = Math.max(childrenData.length, 1);
+        return headerHeight + rowsCount * baseRowHeight + padding + depth * 6;
+    };
+
     // Columns Definition
     const columns = useMemo(() => {
         // Master Columns
@@ -59,7 +67,7 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
                     if (p.row.type === 'DETAIL') {
                         // RENDER RECURSIVE CHILD
                         return (
-                            <div style={{ padding: 20, background: level % 2 === 0 ? '#fafafa' : '#f0f9ff' }}>
+                            <div style={{ padding: 20, background: level % 2 === 0 ? '#fffdf1' : '#fff8cc' }}>
                                 <NestedRDG items={p.row.data} level={level + 1} />
                             </div>
                         );
@@ -83,13 +91,20 @@ const NestedRDG: React.FC<NestedRDGProps> = ({ items, level }) => {
         return cols;
     }, [level, rows]); // Re-calc if rows change (expand state)
 
+    const gridHeight = useMemo(() => {
+        const baseRowHeight = 45;
+        const headerHeight = 52;
+        const buffer = 32;
+        return headerHeight + rows.length * baseRowHeight + buffer;
+    }, [rows.length]);
+
     return (
         <DataGrid
             columns={columns}
             rows={rows}
             rowHeight={(args: any) => args.type === 'DETAIL' ? 400 : 45} // 400px for nested grid
             className="rdg-light"
-            style={{ height: '100%', minHeight: 100 }}
+            style={{ height: gridHeight, minHeight: 120 }}
         />
     );
 };

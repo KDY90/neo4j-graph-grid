@@ -81,7 +81,7 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
                 autoHeight
                 disableRowSelectionOnClick
                 sx={{
-                    '& .MuiDataGrid-columnHeaders': { bgcolor: 'var(--neutral-100)' },
+                    '& .MuiDataGrid-columnHeaders': { bgcolor: '#fff4b1' },
                     borderColor: 'var(--border-color)',
                     border: level > 0 ? '1px dashed #ccc' : 'none'
                 }}
@@ -92,8 +92,8 @@ const RecursiveMuiGrid: React.FC<RecursiveMuiGridProps> = ({ rows, level }) => {
                     <Box sx={{
                         pl: 4,
                         py: 1,
-                        bgcolor: level % 2 === 0 ? 'var(--neutral-50)' : 'var(--color-primary-50)',
-                        borderLeft: '3px solid var(--color-primary-400)',
+                        bgcolor: level % 2 === 0 ? '#fffdf1' : '#fff8cc',
+                        borderLeft: '3px solid #f7d600',
                         borderRadius: '0 8px 8px 0'
                     }}>
                         {row.children && row.children.length > 0 && (
@@ -112,10 +112,11 @@ const MuiHierarchicalGrid: React.FC = () => {
         <Box sx={{
             maxHeight: 'calc(100vh - 200px)', // Viewport-based max height
             width: '100%',
-            bgcolor: 'background.paper',
+            bgcolor: '#ffffff',
             p: 2,
             borderRadius: 2,
-            boxShadow: 3,
+            border: '1px solid rgba(0,0,0,0.06)',
+            boxShadow: '0 18px 32px rgba(0, 0, 0, 0.08)',
             overflow: 'auto' // SCROLL FIX
         }}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
